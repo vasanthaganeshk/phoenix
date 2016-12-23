@@ -7,7 +7,7 @@ engine: ./src/engine.c
 .PHONY: run clean
 
 run:
-	./engine
+	./engine bot1 bot2
 
 clean:
 	\rm engine *~ ./src/*~ ./bots/*~

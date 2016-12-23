@@ -25,6 +25,7 @@ main(int argn, const char **args){
 
   // engine program start  
   int pid = -1;
+  char buf[2][1024];
 
   for(int i = 0; i< MAX_BOTS; i++){
     pid = fork();
@@ -34,7 +35,8 @@ main(int argn, const char **args){
     else if(pid == 0){
       seccomp_load(filter);
       printf("Start of bot: %d\n", i);
-      execl("./bots/bot1", "bot1", NULL);
+      snprintf(buf[i], 1024, "%s%s", "./bots/", args[i+1]);
+      execl(buf[i], args[i+1], NULL);
     }
     else{
       wait(NULL);
