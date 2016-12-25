@@ -1,15 +1,20 @@
-# Terra (game engine API)
+# Terra (game-engine API)
 
-* init(String bot1, String bot2)
+class Bot:
 
-    opens the file desctiptors for log files in write mode
-
-* get_move_bot1()
-
-    waits for two seconds and gets the move played by bot1 and returns, else returns null.
-
-* get_move_bot2()
-
-    waits for two seconds and gets the move played by bot2 and returns, else return null.
-
-* post_new_state
+    static (common to all bots)
+        opens the file descriptor for log-file-global in write mode
+    function start(String path, String name_of_file) / constructor()
+        inits seccomp-bpf filter, creates new named pipe, log-file-local
+        created, returns success or failure
+    function get_move()
+        waits for n seconds and gets the move played by bot and returns (json
+        object?), else returns null, also writes the move to log-file-local
+    function post_state()
+        writes new game state Obj (json object?) into named pipe, writes to
+        log-file-global
+    function terminate(String reason)
+        default reason="Incorrect bot behavior"
+        abort process, close fds, close filter, returns success or failure
+    function is_running()
+        True or False
